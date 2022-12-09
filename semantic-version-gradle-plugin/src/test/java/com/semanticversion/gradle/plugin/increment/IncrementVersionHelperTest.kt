@@ -8,6 +8,8 @@ import java.io.File
 
 class IncrementVersionHelperTest {
 
+    val projectName = "projectTest"
+
     @Test
     fun `GIVEN a version file WHEN incrementing the major THEN the version is properly incremented`() {
         testIncrement("version = \"1.0.0\"\n", VersionIncrementType.MAJOR, "2.0.0", "version = \"2.0.0\"\n")
@@ -60,9 +62,11 @@ class IncrementVersionHelperTest {
         versionFile.writeText(versionFileContent)
 
         val newVersion = IncrementVersionHelper.increment(
+            projectName,
             versionFile,
             versionIncrementType,
             null,
+            false,
             null,
             null,
             null,
@@ -78,9 +82,11 @@ class IncrementVersionHelperTest {
         versionFile.writeText(versionFileContent)
 
         IncrementVersionHelper.increment(
+            projectName,
             versionFile,
             versionIncrementType,
             null,
+            false,
             null,
             null,
             null,

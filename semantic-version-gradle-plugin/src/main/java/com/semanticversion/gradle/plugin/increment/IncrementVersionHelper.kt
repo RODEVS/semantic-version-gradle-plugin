@@ -11,7 +11,7 @@ import java.io.File
 object IncrementVersionHelper {
 
     fun increment(
-        project: Project,
+        projectName: String,
         versionFile: File,
         versionIncrementType: VersionIncrementType,
         versionIncrementBranch: String?,
@@ -51,10 +51,10 @@ object IncrementVersionHelper {
                 }
                 gitHelper.add(versionFile.absolutePath)
                 gitHelper.diffHead()
-                gitHelper.commit(commitMessagePrefix.orEmpty() + "Version for project ${project.name} is now v${newVersion.toString()}")
+                gitHelper.commit(commitMessagePrefix.orEmpty() + "Version for project ${projectName} is now v${newVersion.toString()}")
 
                 if (includeTag == true) {
-                    gitHelper.tag("${project.name}@${newVersion.toString()}", "Version for project ${project.name} is now v${newVersion.toString()}")
+                    gitHelper.tag("${projectName}@${newVersion.toString()}", "Version for project ${projectName} is now v${newVersion.toString()}")
                     gitHelper.pushWithTag(versionIncrementBranch);
                 } else {
                     gitHelper.push(versionIncrementBranch)
