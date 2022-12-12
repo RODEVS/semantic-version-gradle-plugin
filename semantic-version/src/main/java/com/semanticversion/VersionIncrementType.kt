@@ -16,6 +16,16 @@ enum class VersionIncrementType {
         override fun increment(version: Version) {
             version.incrementPatch()
         }
+    },
+    RC {
+        override fun increment(version: Version) {
+            version.incrementReleaseCandidate()
+        }
+    },
+    RELEASE {
+        override fun increment(version: Version) {
+            version.promoteReleaseCandidate()
+        }
     };
 
     abstract fun increment(version: Version)
