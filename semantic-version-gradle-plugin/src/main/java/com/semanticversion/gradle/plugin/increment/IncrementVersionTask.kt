@@ -52,7 +52,7 @@ open class IncrementVersionTask : AbstractTask() {
 
         val buildGradleFile = project.buildFile
         val newVersion = IncrementVersionHelper.increment(
-            project,
+            project.name,
             buildGradleFile,
             VersionIncrementType.valueOf(versionIncrementType!!.toUpperCase()),
             versionIncrementBranch,
