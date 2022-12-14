@@ -81,7 +81,8 @@ open class Version {
 
     constructor(baseVersion: String, config: SemanticVersionConfig) {
         maximumVersion = config.maximumVersion ?: defaultMaximumVersion
-        parseBaseVersion(baseVersion)
+        var split = baseVersion.split(VERSION_CLASSIFIER_SEPARATOR)
+        parseBaseVersion(split[0])
 
         if (baseVersion.contains(RC_CLASSIFIER)) {
             versionClassifier = RC_CLASSIFIER
