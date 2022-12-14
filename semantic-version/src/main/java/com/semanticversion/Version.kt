@@ -18,7 +18,7 @@ open class Version {
     var versionPatch: Int? = null
     var versionReleaseCandidate: Int? = null
     var versionClassifier: String? = null
-    var isSnapshot: Boolean = true
+    var isSnapshot: Boolean = false
     var isBeta: Boolean = false
     var isAlpha: Boolean = false
     var isReleaseCandidate: Boolean = false
@@ -66,6 +66,7 @@ open class Version {
         } else {
             if (version.contains(RC_CLASSIFIER)) {
                 parseBaseVersion(version)
+                parseVersionClassifier(RC_CLASSIFIER)
             } else {
                 parseBaseVersion(split[0])
                 isSnapshot = false
@@ -80,9 +81,15 @@ open class Version {
 
     constructor(baseVersion: String, config: SemanticVersionConfig) {
         maximumVersion = config.maximumVersion ?: defaultMaximumVersion
-        parseBaseVersion(baseVersion)
+        var split = baseVersion.split(VERSION_CLASSIFIER_SEPARATOR)
+        parseBaseVersion(split[0])
 
-        versionClassifier = config.versionClassifier
+        if (baseVersion.contains(RC_CLASSIFIER)) {
+            versionClassifier = RC_CLASSIFIER
+        } else {
+            versionClassifier = config.versionClassifier
+        }
+
         if (versionClassifier == null) {
             // featureBranchPrefix = config.featureBranchPrefix
             // if (!featureBranchPrefix.isNullOrEmpty()) {
@@ -281,7 +288,6 @@ open class Version {
     override fun toString(): String {
         var versionName = baseVersion
         if (!versionClassifier.isNullOrEmpty()) {
-
             if (versionClassifier != RC_CLASSIFIER) {
                 versionName += "$VERSION_CLASSIFIER_SEPARATOR$versionClassifier"
             } else {
